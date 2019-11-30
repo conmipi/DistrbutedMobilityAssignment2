@@ -21,6 +21,7 @@ int main()
   std::map<string,int>::iterator it;
   ifstream myfile( "./data_elonmusk.csv");
   string toRemove[13] = {".",",","?","!"," a "," an "," the "," and "," or "," but ","(",")",":"};
+  ofstream outputFile( "./singleOutput.txt");
 
   if (myfile) 
     {
@@ -55,21 +56,28 @@ int main()
 
 
       }
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> duration = end -start;
+    std::cout << "Time:" << duration.count() << std::endl;
+    outputFile << "Time:" << duration.count() << std::endl;
+      myfile.close();
 
       for(auto& x:words){
 
             
-            cout << x.first << " " << x.second << std::endl;
+            outputFile << x.first << " " << x.second << std::endl;
+            
 
       }
 
 
-    myfile.close();
+   
     }
-  
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> duration = end -start;
-    std::cout << "Time:" << duration.count() << std::endl;
+
+
+
+    myfile.close();
+
 
   return 0;
   }

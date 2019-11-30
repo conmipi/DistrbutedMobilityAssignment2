@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define THREADS 8
+#define THREADS 16
 
 string toRemove[13] = {".",",","?","!"," a "," an "," the "," and "," or "," but ","(",")",":"};
 
@@ -50,6 +50,7 @@ int main()
     std::map<string,int> words[THREADS];
     string lines[THREADS];
     std::thread busyBoys[THREADS];
+    ofstream outputFile( "./multiOutput.txt");
     for(int i = 0; i<THREADS; i++){
 
         lines[i] = "";
@@ -99,22 +100,26 @@ int main()
                 realList.emplace(it.first,it.second);
               }
           }
-      }  
+      }
+    auto end = std::chrono::high_resolution_clock::now(); 
+    std::chrono::duration<float> duration = end -start;
+    std::cout << "Time:" << duration.count() << std::endl;
+    outputFile << "Time:" << duration.count() << std::endl; 
+    myfile.close();
 
       for(auto& x:realList){
 
             
-            cout << x.first << " " << x.second << std::endl;
+            outputFile << x.first << " " << x.second << std::endl;
 
       }
 
 
-    myfile.close();
+
     }
   
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> duration = end -start;
-    std::cout << "Time:" << duration.count() << std::endl;
+
+    outputFile.close();
 
   return 0;
   }
